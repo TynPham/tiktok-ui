@@ -1,13 +1,11 @@
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './Buttons.module.scss';
 import classNames from 'classnames/bind';
-import { faGalacticSenate } from '@fortawesome/free-brands-svg-icons';
 
 const cx = classNames.bind(styles);
 
 function Buttons({
+    classess,
     primary = false,
     outline = false,
     text = false,
@@ -53,6 +51,7 @@ function Buttons({
         large,
         rounded,
         disable,
+        [classess]: classess,
     });
 
     return (

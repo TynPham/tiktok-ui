@@ -13,12 +13,20 @@
     flex: 1;
     margin-left: 8px;
 }
+.User {
+    display: flex;
+    align-items: center;
+}
 .use-name {
     font-size: 1.6rem;
     line-height: 22px;
     font-weight: 600;
 }
-.nick-name {
+.check {
+    color: rgb(32, 213, 236);
+    margin-left: 7px;
+}
+.full-name {
     font-size: 1.4rem;
     line-height: 20px;
     color: rgba(22, 24, 35, 0.5);

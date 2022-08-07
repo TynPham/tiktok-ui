@@ -1,18 +1,134 @@
-import { useEffect, useState } from 'react';
-import Tippy from '@tippyjs/react/headless';
+import Tooltip from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Header.module.scss';
 import image from '~/assets/images';
-import PopperWrapper from '~/components/Popper/wrapper';
-import AccountItem from '~/components/AcountItem';
-import { faCircleXmark, faSpinner, faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+    faPlus,
+    faEllipsisVertical,
+    faEarthAsia,
+    faCircleQuestion,
+    faKeyboard,
+    faUser,
+    faCoins,
+    faGear,
+    faArrowRightToBracket,
+} from '@fortawesome/free-solid-svg-icons';
 import Buttons from '~/components/Buttons';
+import Menu from '~/components/Popper/Menu';
+import { MessageIcon, UploadIcon } from '~/components/Icon';
+import SearchHd from '../Search';
+import Images from '~/components/image';
 
 const cx = classNames.bind(styles);
 
+const MENU_LIST = [
+    {
+        icon: <FontAwesomeIcon icon={faEarthAsia} />,
+        title: 'Tiếng việt',
+        clss: true,
+        children: {
+            title: 'Language',
+            data: [
+                {
+                    title: 'Tiếng Việt',
+                    country: 'Việt Nam',
+                    clss: true,
+                },
+                {
+                    title: 'العربية',
+                    clss: true,
+                },
+                {
+                    title: 'বাঙ্গালি (ভারত)',
+                    clss: true,
+                },
+                {
+                    title: 'Cebuano',
+                    country: 'Pilipinas',
+                    clss: true,
+                },
+                {
+                    title: 'Čeština',
+                    country: 'Česká republika',
+                    clss: true,
+                },
+                {
+                    title: 'Deutsch',
+                    clss: true,
+                },
+                {
+                    title: 'Ελληνικά',
+                    country: 'Ελλάδα',
+                    clss: true,
+                },
+                {
+                    title: 'English',
+                    clss: true,
+                },
+                {
+                    title: 'Español',
+                    clss: true,
+                },
+                {
+                    title: 'Suomi',
+                    country: 'Suomi',
+                    clss: true,
+                },
+                {
+                    title: 'Filipino',
+                    country: 'Pilipinas',
+                    clss: true,
+                },
+                {
+                    title: 'Français',
+                    clss: true,
+                },
+            ],
+        },
+    },
+    {
+        icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+        title: 'Phản hồi và trợ giúp',
+        to: '/feedback',
+        clss: true,
+    },
+    {
+        icon: <FontAwesomeIcon icon={faKeyboard} />,
+        title: 'Phím tắt trên bàn phím',
+        clss: true,
+    },
+];
+
+const USER_MENU = [
+    {
+        icon: <FontAwesomeIcon icon={faUser} />,
+        title: 'Hồ sơ',
+        clss: true,
+    },
+    {
+        icon: <FontAwesomeIcon icon={faCoins} />,
+        title: 'Nhận xu',
+        clss: true,
+    },
+    {
+        icon: <FontAwesomeIcon icon={faGear} />,
+        title: 'Cài đặt',
+        clss: true,
+    },
+    ...MENU_LIST,
+    {
+        icon: <FontAwesomeIcon icon={faArrowRightToBracket} />,
+        title: 'Đăng xuất',
+        clss: true,
+        to: '/logout',
+        isBorderTop: true,
+    },
+];
+
 function Header() {
-    const [searchResult, setSearchResult] = useState([]);
+    const currentUser = true;
 
     return (
         <header className={cx('wrapper')}>
@@ -20,44 +136,49 @@ function Header() {
                 <div className={cx('logo')}>
                     <img src={image.logo} alt="tiktok" />
                 </div>
-                <Tippy
-                    interactive
-                    visible={searchResult.length > 0}
-                    render={(attrs) => (
-                        <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                            <PopperWrapper>
-                                <div className={cx('Account')}>Tài khoản</div>
-                                <AccountItem />
-                                <AccountItem />
-                                <AccountItem />
-                                <AccountItem />
-                            </PopperWrapper>
-                        </div>
-                    )}
-                >
-                    <div className={cx('search')}>
-                        <input placeholder="Tìm kiếm tài khoản và video" />
-                        <button className={cx('clear')}>
-                            <FontAwesomeIcon icon={faCircleXmark} />
-                        </button>
-                        <FontAwesomeIcon icon={faSpinner} className={cx('loading')} />
-                        <button className={cx('search-btn')}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </button>
-                    </div>
-                </Tippy>
+                <SearchHd />
                 <div className={cx('action')}>
                     <Buttons text icon={<FontAwesomeIcon icon={faPlus} />}>
                         Tải lên
                     </Buttons>
-                    <Buttons
-                        primary
-                        onClick={() => {
-                            alert('cmm');
-                        }}
-                    >
-                        Đăng nhập
-                    </Buttons>
+                    {currentUser ? (
+                        <>
+                            <Tooltip content="Tin nhắn">
+                                <button className={cx('icon-btn')}>
+                                    <UploadIcon />
+                                </button>
+                            </Tooltip>
+
+                            <Tooltip content="Hộp thư">
+                                <button className={cx('icon-btn')}>
+                                    <MessageIcon />
+                                </button>
+                            </Tooltip>
+                        </>
+                    ) : (
+                        <>
+                            <Buttons
+                                primary
+                                onClick={() => {
+                                    alert('cmm');
+                                }}
+                            >
+                                Đăng nhập
+                            </Buttons>
+                        </>
+                    )}
+
+                    <Menu items={currentUser ? USER_MENU : MENU_LIST}>
+                        {currentUser ? (
+                            <Images
+                                src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/7128564121953730566~c5_720x720.jpeg?x-expires=1659934800&x-signature=mP8KJoSb1Ug8ZWfM8MOMBw93Rf8%3D"
+                                alt="PT"
+                                className={cx('user-image')}
+                            />
+                        ) : (
+                            <button className={cx('more-btn')}>{<FontAwesomeIcon icon={faEllipsisVertical} />}</button>
+                        )}
+                    </Menu>
                 </div>
             </div>
         </header>

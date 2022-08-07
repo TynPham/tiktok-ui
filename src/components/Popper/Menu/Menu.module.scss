@@ -1,0 +1,57 @@
+.menu-list {
+    width: 224px;
+
+    .menu-item {
+        margin-left: 0;
+    }
+}
+.menu-item {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    color: #000 !important;
+    line-height: 2.4rem;
+    border-radius: 0;
+    cursor: pointer;
+
+    &:hover {
+        background: rgba(22, 24, 35, 0.03);
+    }
+}
+.menu-popper {
+    padding-bottom: 8px;
+    padding-top: 8px;
+    margin-top: -6px;
+}
+// MenuHeader
+.menu-header {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    position: relative;
+    font-weight: 600;
+    cursor: pointer;
+}
+.back-btn {
+    width: 50px;
+    height: 100%;
+    background-color: transparent;
+    font-size: 1.8rem;
+    margin-left: 8px;
+    cursor: pointer;
+}
+.header-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.6rem;
+}
+//menu log in item
+.isPadding {
+    padding: 9px 15px;
+}
+.BorderTop {
+    border-top: 1px solid rgba(22, 24, 35, 0.12);
+}
