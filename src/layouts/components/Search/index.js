@@ -6,8 +6,8 @@ import { faCircleXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-s
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Search.module.scss';
-import useDebounce from '~/hook/useDebounce';
-import { search as searchServices } from '~/apiServices/searchSevices';
+import useDebounce from '~/hooks/useDebounce';
+import { search as searchServices } from '~/Services/searchSevice';
 
 const cx = classNames.bind(styles);
 
@@ -51,9 +51,9 @@ function SearchHd() {
     };
 
     return (
+        // Using a wrapper <div> or <span> tag around the reference element solves this by creating a new parentNode context.
         <div>
             <Tippy
-                appendTo={document.body}
                 interactive
                 visible={showSearch && searchResult.length > 0}
                 render={(attrs) => (

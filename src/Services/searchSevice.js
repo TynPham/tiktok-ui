@@ -1,4 +1,4 @@
-import { get as getRequest } from '~/until/Request';
+import { get as getRequest } from '~/untils/Request';
 
 export const search = async (q, type = 'less') => {
     try {
