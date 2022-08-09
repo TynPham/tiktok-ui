@@ -1,9 +1,13 @@
 .menu-list {
-    width: 224px;
+    width: 226px;
+    // margin-top: 8px;
 
     .menu-item {
         margin-left: 0;
     }
+}
+.menuItemUser {
+    margin-top: 8px;
 }
 .menu-item {
     display: flex;
@@ -13,10 +17,14 @@
     line-height: 2.4rem;
     border-radius: 0;
     cursor: pointer;
+    font-weight: 500;
 
     &:hover {
         background: rgba(22, 24, 35, 0.03);
     }
+}
+.menu-body {
+    overflow-y: auto;
 }
 .menu-popper {
     padding-bottom: 8px;
@@ -25,17 +33,17 @@
 }
 // MenuHeader
 .menu-header {
-    display: flex;
-    align-items: center;
-    height: 50px;
+    height: 42px;
     width: 100%;
     position: relative;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
+    flex-shrink: 0;
 }
+
 .back-btn {
     width: 50px;
-    height: 100%;
+    height: 80%;
     background-color: transparent;
     font-size: 1.8rem;
     margin-left: 8px;
@@ -43,15 +51,22 @@
 }
 .header-title {
     position: absolute;
-    top: 50%;
+    top: 43%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 1.6rem;
 }
 //menu log in item
 .isPadding {
-    padding: 9px 15px;
+    padding: 9px 0px 9px 20px;
 }
 .BorderTop {
     border-top: 1px solid rgba(22, 24, 35, 0.12);
+}
+.Language2 {
+    font-weight: inherit;
+    font-size: 1.4rem;
+}
+.curentLanguage {
+    background: rgba(22, 24, 35, 0.06);
 }

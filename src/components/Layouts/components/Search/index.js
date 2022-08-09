@@ -7,6 +7,7 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Search.module.scss';
 import useDebounce from '~/hook/useDebounce';
+import { search as searchServices } from '~/apiServices/searchSevices';
 
 const cx = classNames.bind(styles);
 
@@ -22,21 +23,26 @@ function SearchHd() {
 
     useEffect(() => {
         if (!debounce.trim()) {
+            setSearchResult([]);
+            return;
+        }
+        setLoading(true);
+        const fetchAPi = async () => {
+            const result = await searchServices(debounce);
+            setSearchResult(result);
+            setLoading(false);
+        };
+        fetchAPi();
+    }, [debounce]);
+
+    const handleValue = (e) => {
+        const searchValue = e.target.value;
+        if (searchValue.startsWith(' ')) {
             return;
         }
 
-        setLoading(true);
-
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounce)}&type=less`)
-            .then((res) => res.json())
-            .then((res) => {
-                setSearchResult(res.data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
-            });
-    }, [debounce]);
+        setSearchValue(searchValue);
+    };
 
     const handleHide = () => {
         setSearchValue('');
@@ -45,43 +51,45 @@ function SearchHd() {
     };
 
     return (
-        <Tippy
-            interactive
-            visible={showSearch && searchResult.length > 0}
-            render={(attrs) => (
-                <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                    <PopperWrapper>
-                        <div className={cx('Account')}>Tài khoản</div>
-                        {searchResult.map((result) => (
-                            <AccountItem data={result} key={result.id} />
-                        ))}
-                    </PopperWrapper>
+        <div>
+            <Tippy
+                appendTo={document.body}
+                interactive
+                visible={showSearch && searchResult.length > 0}
+                render={(attrs) => (
+                    <div className={cx('search-result')} tabIndex="-1" {...attrs}>
+                        <PopperWrapper>
+                            <div className={cx('Account')}>Tài khoản</div>
+                            {searchResult.map((result) => (
+                                <AccountItem data={result} key={result.id} />
+                            ))}
+                        </PopperWrapper>
+                    </div>
+                )}
+                onClickOutside={() => {
+                    setShowSearch(false);
+                }}
+            >
+                <div className={cx('search')}>
+                    <input
+                        ref={inputRef}
+                        value={searchValue}
+                        onChange={handleValue}
+                        onFocus={() => setShowSearch(true)}
+                        placeholder="Tìm kiếm tài khoản và video"
+                    />
+                    {!!searchValue && !loading && (
+                        <button className={cx('clear')}>
+                            <FontAwesomeIcon icon={faCircleXmark} onClick={handleHide} />
+                        </button>
+                    )}
+                    {loading && <FontAwesomeIcon icon={faSpinner} className={cx('loading')} />}
+                    <button onMouseDown={(e) => e.preventDefault()} className={cx('search-btn')}>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    </button>
                 </div>
-            )}
-            onClickOutside={() => {
-                setShowSearch(false);
-            }}
-        >
-            <div className={cx('search')}>
-                <input
-                    ref={inputRef}
-                    value={searchValue}
-                    onChange={(e) => {
-                        setSearchValue(e.target.value);
-                        setShowSearch(true);
-                    }}
-                    onFocus={() => setShowSearch(true)}
-                    placeholder="Tìm kiếm tài khoản và video"
-                />
-                <button className={cx('clear')}>
-                    {showSearch && !loading && <FontAwesomeIcon icon={faCircleXmark} onClick={handleHide} />}
-                </button>
-                {loading && <FontAwesomeIcon icon={faSpinner} className={cx('loading')} />}
-                <button className={cx('search-btn')}>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </button>
-            </div>
-        </Tippy>
+            </Tippy>
+        </div>
     );
 }
 

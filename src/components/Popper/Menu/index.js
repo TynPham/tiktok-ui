@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Menu({ children, items = [] }) {
+function Menu({ children, items = [], className: classMT }) {
     const [history, setHistory] = useState([{ data: items }]);
     const currentMenu = history[history.length - 1];
 
@@ -17,7 +17,6 @@ function Menu({ children, items = [] }) {
             const isParent = !!item.children;
             return (
                 <MenuItem
-                    cls={history.length > 1 ? 'item2' : ''}
                     key={index}
                     data={item}
                     onClick={() => {
@@ -32,12 +31,13 @@ function Menu({ children, items = [] }) {
 
     return (
         <Tippy
+            hideOnClick={false}
             interactive
             offset={[12, 10]}
             delay={[0, 700]}
             placement="bottom-end"
             render={(attrs) => (
-                <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
+                <div className={cx('menu-list', classMT)} tabIndex="-1" {...attrs}>
                     <PopperWrapper className={cx('menu-popper')}>
                         {history.length > 1 && (
                             <MenuHeader
@@ -48,7 +48,7 @@ function Menu({ children, items = [] }) {
                             />
                         )}
 
-                        {renderItem()}
+                        <div className={cx('menu-body')}>{renderItem()}</div>
                     </PopperWrapper>
                 </div>
             )}
