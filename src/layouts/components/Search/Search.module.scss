@@ -9,13 +9,14 @@
     border: 1.5px solid transparent;
 
     input {
+        font-size: 1.6rem;
         height: 100%;
         background-color: transparent;
         flex: 1;
-        font-size: 1.6rem;
         caret-color: var(--primary);
-        font: inherit;
-        font-weight: 400;
+        // font: inherit;
+        // font-weight: 400;
+        padding-right: 40px;
     }
     input:not(:placeholder-shown) ~ .search-btn {
         color: rgba(22, 24, 35, 0.75);
